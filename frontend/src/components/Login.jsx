@@ -81,21 +81,21 @@ const Login = () => {
     }
 
     return (
-        <div className='w-screen min-h-screen flex items-center justify-center p-4'>
-            <div className='flex flex-col lg:flex-row items-center justify-center lg:justify-evenly w-full max-w-6xl'>
-                <div className='hidden lg:block lg:flex-1'>
-                    <img src={img} className='w-full max-w-[300px] mx-auto' alt="" />
-                    <h1 className="text-3xl lg:text-4xl ml-12 mt-4 font-bold hover:cursor-pointer">
+        <div className='w-screen h-screen flex items-center justify-center'>
+            <div className='flex items-center justify-evenly w-[80%]'>
+                <div className='md:block hidden'>
+                    <img src={img} width={'300px'} alt="" />
+                    <h1 className="absolute text-4xl ml-12 bottom-54 font-bold hover:cursor-pointer">
                         <span className="bg-linear-to-r from-sky-600 to-purple-500 bg-clip-text text-transparent">Social</span>
                         <span className="bg-linear-to-r from-purple-800 to-red-500 bg-clip-text text-transparent">Blogs</span>
                     </h1>
                 </div>
-                <div className="w-full max-w-[380px] shadow-xl rounded-2xl p-6 md:p-8">
-                    <h2 className="text-center text-2xl md:text-3xl font-bold pb-4 md:pb-6 text-white bg-clip-text">
-                        {isLogin ? "Login" : "SignUp"}
+                <div className="w-[380px]  shadow-xl rounded-2xl p-8">
+                    <h2 className="text-center text-3xl font-bold pb-6 text-white bg-clip-text ">
+                        {isLogin ? " Login" : "SignUp"}
                     </h2>
 
-                    <form className="flex flex-col gap-3 md:gap-4" onSubmit={submitHandler}>
+                    <form className="flex flex-col gap-4 " onSubmit={submitHandler}>
                         {
                             !isLogin && (
                                 <>
@@ -104,7 +104,7 @@ const Login = () => {
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         placeholder="Name"
-                                        className="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 w-full py-2 px-4 rounded-full transition-all text-sm md:text-base"
+                                        className="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 w-full py-2 px-4 rounded-full transition-all"
                                     />
 
                                     <input
@@ -112,7 +112,7 @@ const Login = () => {
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
                                         placeholder="Username"
-                                        className="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 w-full py-2 px-4 rounded-full transition-all text-sm md:text-base"
+                                        className="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 w-full py-2 px-4 rounded-full transition-all"
                                     />
                                 </>
                             )
@@ -124,7 +124,7 @@ const Login = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Email"
-                            className="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 w-full py-2 px-4 rounded-full transition-all text-sm md:text-base"
+                            className="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 w-full py-2 px-4 rounded-full transition-all"
                         />
 
                         <input
@@ -132,19 +132,19 @@ const Login = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Password"
-                            className="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 w-full py-2 px-4 rounded-full transition-all text-sm md:text-base"
+                            className="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 w-full py-2 px-4 rounded-full transition-all"
                         />
 
                         <button
-                            className="cursor-pointer mt-2 md:mt-4 py-2 bg-linear-to-r from-sky-600 to-red-500 text-white rounded-full font-semibold hover:opacity-90 transition-all text-sm md:text-base"
+                            className="cursor-pointer mt-4 py-2 bg-linear-to-r from-sky-600 to-red-500 text-white rounded-full font-semibold hover:opacity-90 transition-all"
                         >
-                            {isLogin ? "Login" : "SignUp"}
+                            {isLogin ? " Login" : "SignUp"}
                         </button>
 
-                        <p className="text-center text-xs md:text-sm mt-2 text-gray-600">
-                            {isLogin ? "Don't have an account?" : "Already Have an Account "}
+                        <p className="text-center text-sm mt-2 text-gray-600">
+                            {isLogin ? "Don’t have an account?" : "Already Have an Account "}
                             <span className="text-purple-600 font-semibold hover:underline cursor-pointer" onClick={loginSignupHandler}>
-                                {isLogin ? " SignUp" : " Login"}
+                                {isLogin ? " SignUp" : "Login"}
                             </span>
                         </p>
                     </form>

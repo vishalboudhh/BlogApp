@@ -81,43 +81,41 @@ const Tweet = ({ tweet }) => {
     }
 
     return (
-        <div className='border border-gray-700'>
+        <div className='border  border-gray-700 '>
             <div>
-                <div className='flex p-3 md:p-4'>
-                    <div className='shrink-0'>
-                        <Avatar src={tweet?.userId?.profilePicture || `https://vishalmeshram.vercel.app/assets/profile-DauhVDqg.jpg`} size="40" round={true} alt='img' />
-                    </div>
-                    <div className='w-full ml-2 md:ml-2 min-w-0'>
-                        <div className='flex items-center flex-wrap'>
-                            <h1 className='font-semibold text-sm md:text-lg truncate'>{authorName}</h1>
-                            {authorUsername && <p className='text-gray-300 text-xs md:text-lg ml-1 truncate'>@{authorUsername}</p>}
+                <div className='flex p-4'>
+                    <Avatar src={tweet?.userId?.profilePicture || `https://vishalmeshram.vercel.app/assets/profile-DauhVDqg.jpg`} size="40" round={true} alt='img' />
+                    <div className='w-full ml-2'>
+                        <div className='flex items-center '>
+                            <h1 className='font-semibold text-lg'>{authorName}</h1>
+                            {authorUsername && <p className='text-gray-300 text-lg ml-1'> @{authorUsername}</p>}
                         </div>
-                        <div className='my-2 md:my-4'>
-                            <p className='text-sm md:text-base wrap-break-word'>{tweet?.description}</p>
+                        <div className='my-4'>
+                            <p>{tweet?.description}</p>
                         </div>
-                        <div className='flex justify-between gap-2 md:gap-3 flex-wrap'>
-                            <div className='flex items-center gap-1 md:gap-2'>
-                                <div className='cursor-pointer p-1.5 md:p-2 hover:rounded-2xl hover:bg-green-800'>
-                                    <FaComment className='text-sm md:text-base' />
+                        <div className='flex justify-between gap-3 '>
+                            <div className='flex items-center gap-2'>
+                                <div className='cursor-pointer p-2 hover:rounded-2xl hover:bg-green-800'>
+                                    <FaComment />
                                 </div>
-                                <p className='text-xs md:text-sm'>{tweet?.comments?.length || 0}</p>
+                                <p>{tweet?.comments?.length || 0}</p>
                             </div>
-                            <div className='flex items-center gap-1 md:gap-2'>
-                                <div onClick={() => likeOrDislikeHandler(tweet?._id)} className='cursor-pointer p-1.5 md:p-2 hover:rounded-2xl hover:bg-red-800'>
-                                    <FaHeart className='text-sm md:text-base' />
+                            <div className='flex items-center gap-2'>
+                                <div onClick={() => likeOrDislikeHandler(tweet?._id)} className='cursor-pointer p-2 hover:rounded-2xl hover:bg-red-800'>
+                                    <FaHeart />
                                 </div>
-                                <p className='text-xs md:text-sm'>{likes}</p>
+                                <p>{likes}</p>
                             </div>
-                            <div className='flex items-center gap-1 md:gap-2'>
-                                <div onClick={() => bookmarkHandler(tweet?._id)} className={`cursor-pointer p-1.5 md:p-2 hover:rounded-2xl hover:bg-sky-800 ${isBookmarked ? 'text-yellow-400' : ''}`}>
-                                    <FaBookmark className='text-sm md:text-base' />
+                            <div className='flex items-center gap-2'>
+                                <div onClick={() => bookmarkHandler(tweet?._id)} className={`cursor-pointer p-2 hover:rounded-2xl hover:bg-sky-800 ${isBookmarked ? 'text-yellow-400' : ''}`}>
+                                    <FaBookmark />
                                 </div>
                             </div>
                             {
                                 user?._id === tweet.userId._id && (
-                                    <div onClick={()=>deleteTweetHandler(tweet?._id)} className='flex items-center gap-1 md:gap-2'>
-                                        <div className='cursor-pointer p-1.5 md:p-2 hover:rounded-2xl hover:opacity-60 hover:bg-red-800'>
-                                            <MdDelete size={18} className='md:w-5 md:h-5' />
+                                    <div onClick={()=>deleteTweetHandler(tweet?._id)} className='flex items-center gap-2'>
+                                        <div className='cursor-pointer p-2 hover:rounded-2xl hover:opacity-60 hover:bg-red-800'>
+                                            <MdDelete size={`20px`} />
                                         </div>
                                     </div>
                                 )
