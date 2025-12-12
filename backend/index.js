@@ -12,14 +12,7 @@ const app = express();
 const port =  process.env.PORT || 3000
 datbaseConnection();
 
-//Middlewares
-app.use(express.urlencoded({extended:true}))
-app.use(express.json());
-app.use(cookieParser()); 
-app.use(errorHandler); 
-app.use("/uploads", express.static("uploads"));
-
-// CORS configuration - allow multiple origins for production
+// CORS configuration - MUST be before other middleware
 const allowedOrigins = process.env.FRONTEND_URL 
     ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
     : ["http://localhost:5173"];
@@ -33,14 +26,23 @@ const corsOptions = {
             callback(null, true);
         } else {
             console.log('CORS blocked origin:', origin);
+            console.log('Allowed origins:', allowedOrigins);
             callback(new Error('Not allowed by CORS'));
         }
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Set-Cookie']
 }
 app.use(cors(corsOptions))
+
+//Middlewares
+app.use(express.urlencoded({extended:true}))
+app.use(express.json());
+app.use(cookieParser()); 
+app.use(errorHandler); 
+app.use("/uploads", express.static("uploads"));
 
 //Api
 app.use("/api/v1/user",userRoute);

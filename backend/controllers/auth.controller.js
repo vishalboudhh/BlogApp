@@ -73,10 +73,16 @@ export const login = async (req, res, next) => {
 
         const token = await jwt.sign({ userId: user._id }, process.env.TOKENSECRET, { expiresIn: "1d" });
 
-        return res.status(200).cookie("token", token, {
+        // Cookie configuration for production (HTTPS)
+        const isProduction = process.env.NODE_ENV === 'production' || process.env.FRONTEND_URL?.includes('https://');
+        const cookieOptions = {
             httpOnly: true,
-            maxAge: 1 * 24 * 60 * 60 * 1000
-        }).json({
+            maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+            secure: isProduction, // Only send over HTTPS in production
+            sameSite: isProduction ? 'none' : 'lax' // Allow cross-site cookies in production
+        };
+
+        return res.status(200).cookie("token", token, cookieOptions).json({
             message: `Welcome back ${user.name}`,
             user,
             success: true
@@ -89,7 +95,14 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req,res,next) =>{
     try {
-        return res.cookie("token","",{expiresIn:new Date(Date.now())}).json({
+        const isProduction = process.env.NODE_ENV === 'production' || process.env.FRONTEND_URL?.includes('https://');
+        const cookieOptions = {
+            httpOnly: true,
+            expires: new Date(Date.now()),
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax'
+        };
+        return res.cookie("token","", cookieOptions).json({
             message:"User logged out successfully."
         })
     } catch (error) {
