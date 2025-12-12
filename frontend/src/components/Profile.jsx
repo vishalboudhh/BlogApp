@@ -74,48 +74,51 @@ const Profile = () => {
     }
 
     return (
-        <div className='w-[50%] border-l border-r border-gray-700' >
+        <div className='w-full md:w-[70%] lg:w-[60%] xl:w-[50%] border-l border-r border-gray-700'>
             <div className=''>
-                <div className='flex items-center py-2'>
+                <div className='flex items-center py-2 px-2 md:px-0'>
                     <Link to={`/`} className='p-2 rounded-full hover:bg-gray-700 hover:cursor-pointer'>
-                        <IoMdArrowRoundBack size={`24px`} />
+                        <IoMdArrowRoundBack size={24} />
                     </Link>
                     <div className='ml-2'>
-                        <h1 className='font-bold text-lg'>{profile?.name}</h1>
-                        <p className='text-gray-500 text-sm'>10 posts</p>
+                        <h1 className='font-bold text-base md:text-lg truncate'>{profile?.name}</h1>
+                        <p className='text-gray-500 text-xs md:text-sm'>10 posts</p>
                     </div>
                 </div>
-                <img src={`https://pbs.twimg.com/profile_banners/1873023024448061442/1758299084/1080x360`} alt="profile" />
-                <div className='absolute top-52 ml-4 border-4 border-white rounded-full'>
-                    <Avatar src={profile?.profilePicture || `https://vishalmeshram.vercel.app/assets/profile-DauhVDqg.jpg`} round={true} size='120' />
+                <div className='relative'>
+                    <img src={`https://pbs.twimg.com/profile_banners/1873023024448061442/1758299084/1080x360`} alt="profile" className='w-full h-32 md:h-48 object-cover' />
+                    <div className='absolute -bottom-12 md:-bottom-16 left-2 md:left-4 border-2 md:border-4 border-white rounded-full'>
+                        <Avatar src={profile?.profilePicture || `https://vishalmeshram.vercel.app/assets/profile-DauhVDqg.jpg`} round={true} size={80} style={{ width: '80px', height: '80px' }} className='md:!w-[100px] md:!h-[100px]' />
+                    </div>
                 </div>
-                <div className='text-right'>
+                <div className='text-right px-2 md:px-0 mt-14 md:mt-16'>
                     {
                         profile?._id === user?._id ? (
-                            <button onClick={() => setIsEditing(!isEditing)} className='px-4 py-1 my-2 rounded-full hover:bg-sky-800 bg-sky-500 border-gray-400'>{isEditing ? "Close" : "Edit Profile"}</button>
+                            <button onClick={() => setIsEditing(!isEditing)} className='px-3 md:px-4 py-1 my-2 rounded-full hover:bg-sky-800 bg-sky-500 border-gray-400 text-sm md:text-base'>{isEditing ? "Close" : "Edit Profile"}</button>
                         ) : (
-                            <button onClick={followAndUnfollowHandler} className='px-4 py-1 my-2 rounded-full hover:bg-sky-800 bg-sky-500 border-gray-400'>{user?.following?.includes(id) ? "Unfollow" : "Follow"}</button>
+                            <button onClick={followAndUnfollowHandler} className='px-3 md:px-4 py-1 my-2 rounded-full hover:bg-sky-800 bg-sky-500 border-gray-400 text-sm md:text-base'>{user?.following?.includes(id) ? "Unfollow" : "Follow"}</button>
 
                         )
                     }
                 </div>
-                <div className='ml-2 mt-10'>
-                    <h1 className='font-bold text-xl'>{profile?.name}</h1>
-                    < p className='text-sm'>@{profile?.username}</p>
+                <div className='ml-2 md:ml-2 mt-2 md:mt-10 px-2 md:px-0'>
+                    <h1 className='font-bold text-lg md:text-xl'>{profile?.name}</h1>
+                    <p className='text-xs md:text-sm text-gray-400'>@{profile?.username}</p>
                 </div>
-                <div className='ml-2 text-sm'>
-                    <p>{profile?.bio || "Add a bio to tell people more about you."}</p>
+                <div className='ml-2 md:ml-2 text-xs md:text-sm px-2 md:px-0'>
+                    <p className='wrap-break-word'>{profile?.bio || "Add a bio to tell people more about you."}</p>
                 </div>
                 {isEditing && (
-                    <div className='p-4 border-t border-gray-700'>
+                    <div className='p-3 md:p-4 border-t border-gray-700 mt-4'>
                         <div className='flex flex-col gap-3'>
-                            <input value={name} onChange={(e) => setName(e.target.value)} className='bg-gray-800 p-2 rounded' placeholder='Name' />
-                            <input value={username} onChange={(e) => setUsername(e.target.value)} className='bg-gray-800 p-2 rounded' placeholder='Username' />
-                            <textarea value={bio} onChange={(e) => setBio(e.target.value)} className='bg-gray-800 p-2 rounded' placeholder='Bio' />
-                            <button className='bg-blue-500 rounded-full'>
-                                <input type='file' accept='image/*' onChange={(e) => setFile(e.target.files[0])} />
-                            </button>
-                            <button onClick={handleProfileUpdate} className='bg-sky-600 hover:bg-sky-700 rounded-full py-2'>Save</button>
+                            <input value={name} onChange={(e) => setName(e.target.value)} className='bg-gray-800 p-2 rounded text-sm md:text-base' placeholder='Name' />
+                            <input value={username} onChange={(e) => setUsername(e.target.value)} className='bg-gray-800 p-2 rounded text-sm md:text-base' placeholder='Username' />
+                            <textarea value={bio} onChange={(e) => setBio(e.target.value)} className='bg-gray-800 p-2 rounded text-sm md:text-base' placeholder='Bio' rows={3} />
+                            <label className='bg-blue-500 rounded-full px-4 py-2 text-center cursor-pointer text-sm md:text-base'>
+                                Upload Photo
+                                <input type='file' accept='image/*' onChange={(e) => setFile(e.target.files[0])} className='hidden' />
+                            </label>
+                            <button onClick={handleProfileUpdate} className='bg-sky-600 hover:bg-sky-700 rounded-full py-2 text-sm md:text-base'>Save</button>
                         </div>
                     </div>
                 )}
@@ -123,7 +126,7 @@ const Profile = () => {
                     {tweets?.length ? tweets.map((tweet) => (
                         <Tweet key={tweet?._id} tweet={tweet} />
                     )) : (
-                        <p className='p-4 text-center text-gray-400'>No tweets yet</p>
+                        <p className='p-4 text-center text-gray-400 text-sm md:text-base'>No tweets yet</p>
                     )}
                 </div>
             </div>

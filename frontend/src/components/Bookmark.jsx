@@ -26,13 +26,13 @@ const Bookmark = () => {
     fetchBookmarks()
   }, [user, refresh])
 
-  if (loading) return <p className='p-4'>Loading...</p>
-  if (!tweets || tweets.length === 0) return <p className='p-4 text-gray-400'>No bookmarks yet</p>
+  if (loading) return <p className='p-4 text-sm md:text-base'>Loading...</p>
+  if (!tweets || tweets.length === 0) return <p className='p-4 text-gray-400 text-sm md:text-base'>No bookmarks yet</p>
 
   return (
-    <div className='w-[60%] border border-gray-700'>
-      <div className='p-4'>
-        <h1 className='font-bold text-xl mb-4'>Bookmarks</h1>
+    <div className='w-full md:w-[70%] lg:w-[60%] border border-gray-700'>
+      <div className='p-3 md:p-4'>
+        <h1 className='font-bold text-lg md:text-xl mb-4'>Bookmarks</h1>
         {tweets.map((t) => (
           <Tweet key={t._id} tweet={t} />
         ))}

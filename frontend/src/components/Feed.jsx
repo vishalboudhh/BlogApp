@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 const Feed = () => {
   const {tweets} = useSelector(store=>store.tweet);
   return (
-    <div className='w-[60%] border border-gray-700 flex flex-col max-h-[calc(100vh-6rem)] mb-2'>
+    <div className='w-full border border-gray-700 flex flex-col max-h-[calc(100vh-4rem)] md:max-h-[calc(100vh-6rem)] mb-2'>
       <div className='shrink-0'>
         <CreatePost/>
       </div>
@@ -15,7 +15,7 @@ const Feed = () => {
           tweets?.length > 0 ? (
             tweets.map((tweet) => <Tweet key={tweet?._id} tweet={tweet} />)
           ) : (
-            <p className='p-4 text-center text-gray-400'>No tweets to show</p>
+            <p className='p-4 text-center text-gray-400 text-sm md:text-base'>No tweets to show</p>
           )
         }
       </div>

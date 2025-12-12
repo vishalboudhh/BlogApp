@@ -1,6 +1,7 @@
 import { User } from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { transformUser } from "../utils/imageUrlHelper.js";
 
 export const Signup = async (req, res) => {
     try {
@@ -82,9 +83,10 @@ export const login = async (req, res, next) => {
             sameSite: isProduction ? 'none' : 'lax' // Allow cross-site cookies in production
         };
 
+        const transformedUser = transformUser(user.toObject ? user.toObject() : user);
         return res.status(200).cookie("token", token, cookieOptions).json({
             message: `Welcome back ${user.name}`,
-            user,
+            user: transformedUser,
             success: true
         });
 
@@ -122,8 +124,9 @@ export const getCurrentUser = async (req, res, next) => {
             });
         }
 
+        const transformedUser = transformUser(user.toObject ? user.toObject() : user);
         return res.status(200).json({
-            user,
+            user: transformedUser,
             success: true
         });
     } catch (error) {

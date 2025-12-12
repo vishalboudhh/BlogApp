@@ -1,4 +1,5 @@
 import { User } from "../models/user.model.js";
+import { transformUser, transformUsers } from "../utils/imageUrlHelper.js";
 
 export const bookmark = async (req, res, next) => {
     try {
@@ -37,8 +38,9 @@ export const getMyProfile = async (req, res, next) => {
     try {
         const id = req.params.id;
         const user = await User.findById(id).select("-password");
+        const transformedUser = transformUser(user?.toObject ? user.toObject() : user);
         return res.status(200).json({
-            user,
+            user: transformedUser,
         })
     } catch (error) {
         next(error)
@@ -56,8 +58,9 @@ export const getAllUsers = async (req, res, next) => {
             })
         };
 
+        const transformedUsers = transformUsers(otherUsers.map(u => u.toObject ? u.toObject() : u));
         return res.status(200).json({
-            otherUsers
+            otherUsers: transformedUsers
         });
     } catch (error) {
         next(error);
@@ -88,8 +91,8 @@ export const follow = async (req, res, next) => {
         return res.status(200).json({
             message: `${loggedInUser.name} just follow to ${user.name}`,
             success: true,
-            loggedInUser: updatedLoggedInUser,
-            targetUser: updatedTargetUser
+            loggedInUser: transformUser(updatedLoggedInUser.toObject ? updatedLoggedInUser.toObject() : updatedLoggedInUser),
+            targetUser: transformUser(updatedTargetUser.toObject ? updatedTargetUser.toObject() : updatedTargetUser)
         });
     } catch (error) {
         next(error);
@@ -118,8 +121,8 @@ export const unfollow = async(req,res,next) =>{
         return res.status(200).json({
             message: `${loggedInUser.name} just unfollow to ${user.name}`,
             success: true,
-            loggedInUser: updatedLoggedInUser,
-            targetUser: updatedTargetUser
+            loggedInUser: transformUser(updatedLoggedInUser.toObject ? updatedLoggedInUser.toObject() : updatedLoggedInUser),
+            targetUser: transformUser(updatedTargetUser.toObject ? updatedTargetUser.toObject() : updatedTargetUser)
         });
     } catch (error) {
         next(error);
@@ -135,7 +138,9 @@ export const updateProfile = async (req, res, next) => {
         if (username) updatePayload.username = username;
         if (bio !== undefined) updatePayload.bio = bio;
         if (req.file) {
-            const fileUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+            // Use environment variable for backend URL, fallback to request-based URL
+            const backendUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get("host")}`;
+            const fileUrl = `${backendUrl}/uploads/${req.file.filename}`;
             updatePayload.profilePicture = fileUrl;
         }
         const updatedUser = await User.findByIdAndUpdate(
@@ -146,12 +151,14 @@ export const updateProfile = async (req, res, next) => {
         if (!updatedUser) {
             return res.status(404).json({ message: "User not found" });
         }
+        const transformedUser = transformUser(updatedUser.toObject ? updatedUser.toObject() : updatedUser);
         return res.status(200).json({
             success: true,
             message: "Profile updated successfully",
-            user: updatedUser
+            user: transformedUser
         });
     } catch (error) {
+        console.error('Update profile error:', error);
         next(error);
     }
 };

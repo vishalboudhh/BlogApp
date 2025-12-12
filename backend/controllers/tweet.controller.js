@@ -1,5 +1,6 @@
 import { Tweet } from "../models/tweet.model.js";
 import { User } from "../models/user.model.js";
+import { transformUser, transformTweets } from "../utils/imageUrlHelper.js";
 
 export const createTweet = async (req, res, next) => {
     try {
@@ -79,8 +80,10 @@ export const getAllTweets = async (req, res, next) => {
                 .map(uid => Tweet.find({ userId: uid }).populate('userId'))
         ).then(results => results.flat());
 
+        const allTweets = loggedInUserTweets.concat(...followingUserTweet);
+        const transformedTweets = transformTweets(allTweets.map(t => t.toObject ? t.toObject() : t));
         return res.status(200).json({
-            tweets: loggedInUserTweets.concat(...followingUserTweet)
+            tweets: transformedTweets
         });
     } catch (error) {
         next(error);
@@ -91,7 +94,8 @@ export const getUserTweets = async (req, res, next) => {
     try {
         const id = req.params.id;
         const tweets = await Tweet.find({ userId: id }).populate('userId');
-        return res.status(200).json({ tweets });
+        const transformedTweets = transformTweets(tweets.map(t => t.toObject ? t.toObject() : t));
+        return res.status(200).json({ tweets: transformedTweets });
     } catch (error) {
         next(error);
     }
@@ -109,8 +113,9 @@ export const getFollowingTweet = async(req,res,next) =>{
             loggedInUser.following.map(uid => Tweet.find({ userId: uid }).populate('userId'))
         ).then(results => results.flat());
 
+        const transformedTweets = transformTweets(followingUserTweet.map(t => t.toObject ? t.toObject() : t));
         return res.status(200).json({
-            tweets: followingUserTweet
+            tweets: transformedTweets
         });
     } catch (error) {
         next(error)
@@ -126,7 +131,8 @@ export const getBookmarkedTweets = async (req, res, next) => {
         }
         const bookmarkIds = user.bookmark || [];
         const bookmarkedTweets = await Tweet.find({ _id: { $in: bookmarkIds } }).populate('userId', 'name username profilePicture');
-        return res.status(200).json({ tweets: bookmarkedTweets });
+        const transformedTweets = transformTweets(bookmarkedTweets.map(t => t.toObject ? t.toObject() : t));
+        return res.status(200).json({ tweets: transformedTweets });
     } catch (error) {
         next(error);
     }
