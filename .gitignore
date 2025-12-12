@@ -11,10 +11,7 @@ backend/.env
 frontend/.env
 
 # Build outputs
-dist/
-build/
-*/dist/
-*/build/
+
 
 # Logs
 logs/
