@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+body{
+    background-color: black;
+    color: white;
+}
+/* Hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .hide-scrollbar {
+    scrollbar-width: none; /* Firefox */
+  }
+  
